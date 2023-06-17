@@ -1,0 +1,67 @@
+{
+    "data": [
+        {
+            "clinicId": 1,
+            "clinicName": "TESAI",
+            "address": {
+                "fullAddress": "xxxx",
+                "number": "1982",
+                "additionalInfo": "asdfasdfasdf"
+            },
+            "contactDetails": [
+                {
+                    "contactMethodInfo": "Celular de Lolo",
+                    "contactType": "Celular",
+                    "contactDetail": "092780063"
+                },
+                {
+                    "contactMethodInfo": "Correo de Lolo",
+                    "contactType": "Correo",
+                    "contactDetail": "rbarbieriperez@gmail.com"
+                }
+            ]
+        },
+        {
+            "clinicId": 2,
+            "clinicName": "CEDAP",
+            "address": {
+                "fullAddress": "xxxx",
+                "number": "1982",
+                "additionalInfo": "asdfasdfasdf"
+            },
+            "contactDetails": [
+                {
+                    "contactMethodInfo": "Celular de Lolo",
+                    "contactType": "Celular",
+                    "contactDetail": "092780063"
+                },
+                {
+                    "contactMethodInfo": "Correo de Lolo",
+                    "contactType": "Correo",
+                    "contactDetail": "rbarbieriperez@gmail.com"
+                }
+            ]
+        },
+        {
+            "clinicId": 3,
+            "clinicName": "Tres Cruces",
+            "address": {
+                "fullAddress": "xxxx",
+                "number": "1982",
+                "additionalInfo": "asdfasdfasdf"
+            },
+            "contactDetails": [
+                {
+                    "contactMethodInfo": "Celular de Lolo",
+                    "contactType": "Celular",
+                    "contactDetail": "092780063"
+                },
+                {
+                    "contactMethodInfo": "Correo de Lolo",
+                    "contactType": "Correo",
+                    "contactDetail": "rbarbieriperez@gmail.com"
+                }
+            ]
+        }
+    ]
+}

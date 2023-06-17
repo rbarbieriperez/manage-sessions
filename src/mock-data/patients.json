@@ -1,0 +1,178 @@
+{
+    "data": [
+        {
+            "patientId": 1,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 1,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 2,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 1,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 3,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 2,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 4,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 2,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 5,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 3,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 6,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 3,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

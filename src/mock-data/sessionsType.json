@@ -1,0 +1,16 @@
+{
+    "data": [
+        {
+            "sessionTypeId": 1,
+            "sessionType": "Normal"
+        },
+        {
+            "sessionTypeId": 2,
+            "sessionType": "Falta sin aviso"
+        },
+        {
+            "sessionTypeId": 3,
+            "sessionType": "Falta con aviso"
+        }
+    ]
+}

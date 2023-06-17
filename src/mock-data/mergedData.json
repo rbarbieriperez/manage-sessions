@@ -1,0 +1,255 @@
+{
+    "name": "",
+    "surname": "",
+    "clinics": [
+        {
+            "clinicId": 1,
+            "clinicName": "TESAI",
+            "address": {
+                "fullAddress": "xxxx",
+                "number": "1982",
+                "additionalInfo": "asdfasdfasdf"
+            },
+            "contactDetails": [
+                {
+                    "contactMethodInfo": "Celular de Lolo",
+                    "contactType": "Celular",
+                    "contactDetail": "092780063"
+                },
+                {
+                    "contactMethodInfo": "Correo de Lolo",
+                    "contactType": "Correo",
+                    "contactDetail": "rbarbieriperez@gmail.com"
+                }
+            ]
+        },
+        {
+            "clinicId": 2,
+            "clinicName": "CEDAP",
+            "address": {
+                "fullAddress": "xxxx",
+                "number": "1982",
+                "additionalInfo": "asdfasdfasdf"
+            },
+            "contactDetails": [
+                {
+                    "contactMethodInfo": "Celular de Lolo",
+                    "contactType": "Celular",
+                    "contactDetail": "092780063"
+                },
+                {
+                    "contactMethodInfo": "Correo de Lolo",
+                    "contactType": "Correo",
+                    "contactDetail": "rbarbieriperez@gmail.com"
+                }
+            ]
+        },
+        {
+            "clinicId": 3,
+            "clinicName": "Tres Cruces",
+            "address": {
+                "fullAddress": "xxxx",
+                "number": "1982",
+                "additionalInfo": "asdfasdfasdf"
+            },
+            "contactDetails": [
+                {
+                    "contactMethodInfo": "Celular de Lolo",
+                    "contactType": "Celular",
+                    "contactDetail": "092780063"
+                },
+                {
+                    "contactMethodInfo": "Correo de Lolo",
+                    "contactType": "Correo",
+                    "contactDetail": "rbarbieriperez@gmail.com"
+                }
+            ]
+        }
+    ],
+    "patients": [
+        {
+            "patientId": 1,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 1,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 2,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 1,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 3,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 2,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 4,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 2,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 5,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 3,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "patientId": 6,
+            "name": "Rodrigo",
+            "surname": "Barbieri",
+            "lastSurname": "Pérez",
+            "clinicId": 3,
+            "age": 21,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionTime": 45,
+            "family": [
+                {
+                    "relationType": "mother",
+                    "name": "",
+                    "surname": "",
+                    "lastSurname": "",
+                    "contactDetails": [
+                        {
+                            "contactType": "Celular",
+                            "contactDetail": "092780063"
+                        },
+                        {
+                            "contactType": "Correo",
+                            "contactDetail": "rbarbieriperez@gmail.com"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "sessions": [
+        {
+            "sessionId": 1,
+            "patientId": 1,
+            "clinicId": 1,
+            "sessionType": "Normal",
+            "sessionValue": 350,
+            "sessionDate": "2023-06-12"
+        }
+    ]
+}
