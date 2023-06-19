@@ -9,6 +9,7 @@ import 'dayjs/locale/es';
 import SelectCustom from '../../components/select-custom/select-custom';
 import DialogCustom from '../../components/dialog-custom/dialog-custom';
 import { _saveData } from '../../firebase/_queries';
+import { PATIENT_SESSIONS_INITIAL, PatientSessionsReducer } from '../../reducers/patient-sessions-reducer';
 
 interface IPatientSessions {
     patientId: number;
@@ -23,7 +24,7 @@ type TDate = {
 
 const months = [
     {
-        id: -1,
+        id: 0,
         value: '-- NO FILTRAR --'
     },
     {
@@ -79,32 +80,26 @@ const months = [
 
 export default function PatientSessions({ patientId, onAlert }: IPatientSessions) {
     const UserDataProvider = React.useContext(UserDataContext);
-    const [allPatientSessions, setAllPatientSessions] = React.useState<Array<TSession>>([]);
-    const [filteredSessions, setFilteredSessions] = React.useState<Array<TSession>>([]);
-    const [selectedYear, setSelectedYear] = React.useState<number>(-1);
-    const [selectedMonth, setSelectedMonth] = React.useState<number>(-1);
+    const [state, dispatch] = React.useReducer(PatientSessionsReducer, PATIENT_SESSIONS_INITIAL)
 
-
-    const [monthsArray, setMonthsArr] = React.useState<Array<TOption>>([]);
-    const [yearsArr, setYearsArr] = React.useState<TOption[]>([]);
-
-    //Delete session
-    const [dialogModalVisible, setDialogModalVisible] = React.useState<boolean>(false);
-    const [deleteSessionId, setDeleteSessionId] = React.useState<number>(0);
 
     /**
      * Map all the sessions from the selected patient by date
      */
     React.useEffect(() => {
-        setAllPatientSessions(UserDataProvider.sessions.filter((sesion:TSession) => (sesion.patientId === patientId)));
+        dispatch({ type: 'UPDATE_ALL_PATIENT_SESSIONS', payload: UserDataProvider.sessions.filter((sesion:TSession) => (sesion.patientId === patientId))});
         _computeYearsArray();
         _computeMonthsArray();
     }, []);
 
+    React.useEffect(() => {
+        console.log(state.yearsArr);
+    }, [state.yearsArr]);
+
     const _computeYearsArray = () => {
         const currentYear = new Date().getFullYear();
         const maxOldYear = 2010;
-        setYearsArr(() => {
+        dispatch({ type: 'UPDATE_YEARS_ARRAY', payload: () => {
             let options:TOption[] = [];
             let id = 1;
             for (let i = currentYear; i >= maxOldYear; i--) {
@@ -114,12 +109,13 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
                 });
                 id++;
             }
-            options.unshift({ value: -1, label: '-- NO FILTRAR --' });
+            options.unshift({ value: 0, label: '-- NO FILTRAR --' });
             return options;
-        });
+        }});
     }
 
-    const _computeMonthsArray = () => setMonthsArr(months.map((el) => ({ value: el.id, label: el.value })));
+    //const _computeMonthsArray = () => setMonthsArr(months.map((el) => ({ value: el.id, label: el.value })));
+    const _computeMonthsArray = () => dispatch({ type: 'UPDATE_MONTHS_ARRAY', payload: months.map((el) => ({ value: el.id, label: el.value }))});
 
     const _computeDate = (date: string) => {
         dayjs.locale('es');
@@ -128,13 +124,13 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
     }
 
     const _onYearSelected = (idSelected: number) => {
-        setSelectedYear(idSelected);
+        dispatch({ type: 'UPDATE_SELECTED_YEAR', payload: idSelected });
     }
 
-    const _getYearLabel = (yearId: number) => Number(yearsArr.find((year) => year.value === yearId)?.label);
+    const _getYearLabel = (yearId: number) => Number(state.yearsArr.find((year: TOption) => year.value === yearId)?.label);
 
     const _filterSessions = (year:number, month?: number) => {
-        setFilteredSessions(allPatientSessions.filter((session: TSession) => {
+        dispatch({ type: 'UPDATE_FILTERED_SESSIONS', payload: state.allPatientSessions.filter((session: TSession) => {
             const sessionValues = session.sessionDate.split('-');
 
             const sessionYear = Number(sessionValues[0]);
@@ -145,75 +141,68 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
             if (year && month) return isYear && isMonth;
 
             return isYear;
-        }));
+        })})
     }
 
     React.useEffect(() => {
-       if (selectedYear === -1 && selectedMonth === -1) setFilteredSessions(allPatientSessions);
-       if (selectedYear !== -1 && selectedMonth === -1) _filterSessions(_getYearLabel(selectedYear), undefined);
-       if (selectedYear !== -1 && selectedMonth !== -1) _filterSessions(_getYearLabel(selectedYear), selectedMonth);
-    }, [selectedYear, selectedMonth, allPatientSessions]);
+        if (state.selectedYear === 0 && state.selectedMonth === 0) dispatch({ type: 'UPDATE_FILTERED_SESSIONS', payload: state.allPatientSessions });
+        if (state.selectedYear !== 0 && state.selectedMonth === 0) _filterSessions(_getYearLabel(state.selectedYear), undefined);
+        if (state.selectedYear !== 0 && state.selectedMonth !== 0) _filterSessions(_getYearLabel(state.selectedYear), state.selectedMonth);
+
+    }, [state.selectedYear, state.selectedMonth, state.allPatientSessions]);
 
 
     const _onSelectedMonthChanged = (value: number) => {
-        setSelectedMonth(value);
+        dispatch({ type: 'UPDATE_SELECTED_MONTH', payload: value });
     }
 
-
     const _handleDeleteSession = (id: number) => {
-        setDialogModalVisible(true);
-        setDeleteSessionId(id);
-        
+        dispatch({ type: 'UPDATE_DIALOG_MODAL_VISIBLE', payload: true });
+        dispatch({ type: 'UPDATE_DELETE_SESSION_ID', payload: id });
     }
 
     const onDeleteSession = () => {
         // Copia del objeto UserDataProvider
         const userData = { ...UserDataProvider };
-      
         // Eliminar la sesión del array
         const newSessionsArray = [...userData.sessions];
-        newSessionsArray.splice(newSessionsArray.findIndex((session: TSession) => session.sessionId === deleteSessionId), 1);
-      
+        newSessionsArray.splice(newSessionsArray.findIndex((session: TSession) => session.sessionId === state.deleteSessionId), 1);
         // Actualizar userData con el nuevo array de sesiones
         userData.sessions = newSessionsArray;
-      
         if (_saveData(userData)) {
             onAlert('Sesión eliminada con éxito!', 'success');
-            setAllPatientSessions(userData.sessions.filter((session:TSession) => session.patientId === patientId));
+            dispatch({ type: 'UPDATE_ALL_PATIENT_SESSIONS', payload: userData.sessions.filter((session:TSession) => session.patientId === patientId)});
         } else {
             onAlert('No hemos podido eliminar la sesión', 'error');
         }
-      
-        // Actualizar el estado con el nuevo userData
-        //setUserDataProvider(userData);
-      
-        // Ocultar el modal de diálogo
-        setDialogModalVisible(false);
+        dispatch({ type: 'UPDATE_DIALOG_MODAL_VISIBLE', payload: false });
       };
 
     return <>
         <Grid2 container xs={12} display={"flex"} rowGap={5} paddingTop={5} justifyContent={"center"}>
             {
-                allPatientSessions.length > 0 ? <>
+                state.allPatientSessions.length > 0 ? <>
                     <Grid2 xs={10}>
                         <SelectCustom
-                            value={selectedYear.toString()}
+                            value={state.selectedYear.toString()}
                             onChange={_onYearSelected}
                             disabled={false}
                             label='Año'
-                            optionsArr={yearsArr
-                        }/>
+                            optionsArr={state.yearsArr?.length > 0 ? state.yearsArr : []}
+                            showZeroValue
+                        />
                     </Grid2>
                     <Grid2 xs={10}>
                         <SelectCustom
                             onChange={_onSelectedMonthChanged}
-                            value={selectedMonth.toString()}
-                            disabled={selectedYear !== -1 ? false : true }
+                            value={state.selectedMonth.toString()}
+                            disabled={state.selectedYear !== 0 ? false : true }
                             label='Mes'
-                            optionsArr={monthsArray}
+                            optionsArr={state.monthsArray?.length > 0 ? state.monthsArray : []}
+                            showZeroValue
                         />
                     </Grid2>
-                    {filteredSessions.map((sesion: TSession, index: number) => {
+                    {state.filteredSessions.map((sesion: TSession, index: number) => {
                         return <Grid2 key={'session-' + index} xs={10} border={1} padding={"15px"} borderRadius={5} sx={{ backgroundColor: "lightcyan" }} boxShadow={3}>
                             <Grid2 xs={12} position={"relative"}>
                                 <Typography fontSize={14}>{_computeDate(sesion.sessionDate)}</Typography>
@@ -235,13 +224,13 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
             }
         </Grid2>
 
-        <DialogCustom 
-            open={dialogModalVisible}
+        <DialogCustom
+            open={state.dialogModalVisible}
             modalTitle='Eliminar sesión?'
             modalDesc='Si la eliminas no podrás recuperarla.'
             acceptButtonText='Eliminar'
             rejectButtonText='Cerrar'
-            onButtonRejectClick={() => setDialogModalVisible(false)}
+            onButtonRejectClick={() => dispatch({ type: 'UPDATE_DIALOG_MODAL_VISIBLE', payload: false })}
             onButtonAcceptClick={onDeleteSession}
         />
     </>

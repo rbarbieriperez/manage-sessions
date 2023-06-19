@@ -44,11 +44,58 @@ export const INITIAL_UPDATE_DELETE_DATA:IUpdateDeletePatientReducer = {
 }
 
 type TAction = {
-    type: '',
+    type: 'UPDATE_BUTTON_DISABLED'
+    | 'UPDATE_CLINICS_OPTIONS_ARRAY'
+    | 'UPDATE_PATIENTS_ON_CLINIC'
+    | 'UPDATE_SELECTED_CLINIC'
+    | 'UPDATE_SELECTED_PATIENT'
+    | 'UPDATE_SELECT_PATIENT_DISABLED'
+    | 'UPDATE_FORM_SUBMITTED'
+    | 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS'
+    | 'UPDATE_MODAL_DIALOG_OPEN'
+    | 'INITIAL_STATE'
     payload: any
 }
 
 
 export const updateDeletePatientReduce = (state: IUpdateDeletePatientReducer, action: TAction) => {
-    
+    switch(action.type) {
+        case 'UPDATE_BUTTON_DISABLED': return {
+            ...state,
+            buttonDisabled: action.payload
+        };
+        case 'UPDATE_CLINICS_OPTIONS_ARRAY': return {
+            ...state,
+            clinicsOptionsArray: action.payload
+        };
+        case 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS': return {
+            ...state,
+            familyContactDetailsElements: action.payload
+        };
+        case 'UPDATE_FORM_SUBMITTED': return {
+            ...state,
+            formSubmitted: action.payload
+        };
+        case 'UPDATE_MODAL_DIALOG_OPEN': return {
+            ...state,
+            modalDialogOpen: action.payload
+        };
+        case 'UPDATE_PATIENTS_ON_CLINIC': return {
+            ...state,
+            patientsOnClinic: action.payload
+        };
+        case 'UPDATE_SELECTED_CLINIC': return {
+            ...state,
+            selectedClinic: action.payload
+        };
+        case 'UPDATE_SELECTED_PATIENT': return {
+            ...state,
+            selectedPatient: action.payload
+        };
+        case 'UPDATE_SELECT_PATIENT_DISABLED': return {
+            ...state,
+            selectPatientDisabled: action.payload
+        };
+        case 'INITIAL_STATE': return action.payload;
+    }
 }

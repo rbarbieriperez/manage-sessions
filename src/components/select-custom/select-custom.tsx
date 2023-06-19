@@ -14,10 +14,11 @@ interface ISelect {
     disabled?: boolean;
     id?: string;
     value?: string;
+    showZeroValue?: boolean;
 }
 
 
-export default function SelectCustom ({ label, onChange, optionsArr, disabled = false, id = "", value}: ISelect) {
+export default function SelectCustom ({ label, onChange, optionsArr, disabled = false, id = "", value, showZeroValue = false}: ISelect) {
     const [selectedValue, setSelectedValue] = React.useState<number | string>("");
 
     const _mapOptions = () => {
@@ -31,7 +32,7 @@ export default function SelectCustom ({ label, onChange, optionsArr, disabled = 
     }, [selectedValue]);
 
     React.useEffect(() => {
-        if (value === "0") {
+        if (value === "0" && !showZeroValue) {
             setSelectedValue("");
         } else if (value) {
             setSelectedValue(value);
