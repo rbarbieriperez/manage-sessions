@@ -2,27 +2,14 @@ import Grid2 from '@mui/material/Unstable_Grid2';
 import React from 'react';
 import SelectCustom from '../../components/select-custom/select-custom';
 import { UserDataContext } from '../../App';
-import { TClinic, TFamily, TOption, TPatient, TUserData } from '../../types/types';
-import CachedIcon from '@mui/icons-material/Cached';
+import { TClinic, TFamily, TOption, TPatient } from '../../types/types';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
-import { relationshipOptionsArr, sessionTimeOptions, typeOptionsArr } from '../../utils/objects';
+import { Button, IconButton, Typography } from '@mui/material';
 import { _saveData } from '../../firebase/_queries';
 import PatientData from '../../components/patient-data/patient-data';
 import ContactDetails from '../../components/patient-contact-details/patient-contact-details';
 import { INITIAL_CREATE_PATIENT, createPatientReduce } from '../../reducers/create-patient-reducer';
-
-const patientInitialData = {
-    name: '',
-    surname: '',
-    lastSurname: '',
-    clinicId: 0,
-    age: 0,
-    sessionValue: 0,
-    sessionTime: 0,
-    family: []
-}
 
 const initialClinic:TClinic = {
     clinicName: '',
