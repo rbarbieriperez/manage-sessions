@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.css';
 import AddSession from './views/add-session/add-session';
-import clinicsData from './mock-data/clinicsData.json';
-import patients from './mock-data/patients.json';
 import sessionsType from './mock-data/sessionsType.json';
 import HeaderCustom from './components/header-custom/header-custom';
 import LateralMenuCustom, { TLateralMenuCustom } from './components/lateral-menu-custom/LateralMenuCustom';
@@ -127,11 +125,17 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    if (userData.name && currentPage === "home") {
-      setShowHelperScreen(userData.clinics.length === 0 || userData.patients.length === 0);
-    } else {
-      setShowHelperScreen(false);
+    if (currentPage === "home" && (userData.patients.length === 0 || userData.clinics.length === 0)) {
+      setShowHelperScreen(true);
+      return;
     }
+
+    if (currentPage === "manage-patients" && userData.clinics.length === 0) {
+      setShowHelperScreen(true);
+      return;
+    }
+
+    setShowHelperScreen(false);
   }, [userData, currentPage]);
 
 

@@ -40,7 +40,7 @@ export default function ManageClinics() {
 
     React.useEffect(() => {
         dispatch({ type: 'UPDATE_USER_DATA', payload: UserDataProvider });
-    }, []);
+    }, [UserDataProvider]);
 
     /**
      * Add a new contact detail element to DOM.
@@ -61,11 +61,6 @@ export default function ManageClinics() {
               ]
         }});
     }
-
-    React.useEffect(() => {
-        console.log(state.clinicData);
-        
-    }, [state.clinicData])
 
     /**
      * Remove the last contact details element from DOM.
@@ -123,11 +118,11 @@ export default function ManageClinics() {
     React.useEffect(() => {
         if (state.submitButtonClicked) {
             if (_saveData(state.userData)) {
+                dispatch({ type: 'UPDATE_SPINNER_VISIBLE', payload: false });
                 _openAlert('Clínica guardada con éxito!', 'success');
             } else {
                 _openAlert('Error al guardar la clínica!', 'error');
             }
-            dispatch({ type: 'INITIAL_STATE', payload: INITIAL_MANAGE_CLINICS });
         }
     }, [state.submitButtonClicked]);
 
@@ -219,12 +214,11 @@ export default function ManageClinics() {
 
 
     const _openAlert = (message: string, type: 'success' | 'error') => {
+        dispatch({ type: 'INITIAL_STATE', payload: INITIAL_MANAGE_CLINICS });
         dispatch({ type: 'UPDATE_ALERT_CONFIG', payload: { visible: true, message: message, type: type }});
-
         setTimeout(() => {
-            dispatch({ type: 'UPDATE_ALERT_CONFIG', payload: { visible: true, message: message }});
-            dispatch({ type: 'INITIAL_STATE', payload: INITIAL_MANAGE_CLINICS });
-        }, 3000);
+            dispatch({ type: 'UPDATE_ALERT_CONFIG', payload: { visible: false, message: '', type: 'error' }});
+        }, 1500);
     }
 
     return <>
@@ -255,10 +249,28 @@ export default function ManageClinics() {
                 </FormControl>
             </Grid2>
             <Grid2 xs={10} marginTop={5}>
-                <TextField fullWidth value={state.clinicData?.address?.fullAddress} onChange={_onClinicDataChange} id="fullAddress" label="Dirección completa*" variant="outlined"/>
+                <TextField
+                    fullWidth
+                    value={state.clinicData?.address?.fullAddress}
+                    onChange={_onClinicDataChange}
+                    id="fullAddress"
+                    label="Dirección completa*"
+                    variant="outlined"
+                />
             </Grid2>
             <Grid2 xs={10} marginTop={5}>
-                <TextField fullWidth value={state.clinicData?.address?.number} onChange={_onClinicDataChange} id="number" label="Número*" variant="outlined"/>
+                <TextField 
+                    fullWidth 
+                    value={state.clinicData?.address?.number} 
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        if (/^\d{0,4}$/.test(e.target.value)) {
+                            _onClinicDataChange(e);
+                        }
+                    }} 
+                    id="number" 
+                    label="Número*" 
+                    variant="outlined"
+                />
             </Grid2>
             <Grid2 xs={10} marginTop={5}>
                 <TextField fullWidth value={state.clinicData?.address?.additionalInfo} onChange={_onClinicDataChange} id="additionalInfo" label="Información Adicional" variant="outlined"/>
