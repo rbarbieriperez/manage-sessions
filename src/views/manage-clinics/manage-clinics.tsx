@@ -38,9 +38,32 @@ export default function ManageClinics() {
 
 
 
+    /* -------- UTILS METHODS ---------- */
+
     React.useEffect(() => {
         dispatch({ type: 'UPDATE_USER_DATA', payload: UserDataProvider });
     }, [UserDataProvider, state.userData]);
+
+
+    /**
+     * Method that compares the old clinic data with the new clinic data,
+     * if both are equals, returns false, returns true otherwise.
+     * @returns
+     */
+    const _compareOldClinicWithNewClinicData = (): boolean => {
+        if (JSON.stringify(state.clinicData) !== JSON.stringify(state.oldClinicData)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+    /* -------- END OF UTILS METHODS --------*/
+
+
+    /* -------- NEW CLINIC METHODS --------- */
 
     /**
      * Add a new contact detail element to DOM.
@@ -82,12 +105,16 @@ export default function ManageClinics() {
      * Validate all the required values in order to enable the continue button
      */
     React.useEffect(() => {
-        const clinicNameAndAddressBool = ![state.clinicData.clinicName, state.clinicData.address.fullAddress, state.clinicData.address.number].includes('');
-        if (Array.isArray(state.clinicData.contactDetails) && state.clinicData.contactDetails.length > 0) {
-            const contactDetailsBool = !(state.clinicData.contactDetails.filter((el: TContactDetail) => el.contactDetail === '' || el.contactMethodInfo === '' || el.contactType === '').length > 0);
-            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!clinicNameAndAddressBool || !contactDetailsBool) });
+        if (_compareOldClinicWithNewClinicData()) {
+            const clinicNameAndAddressBool = ![state.clinicData.clinicName, state.clinicData.address.fullAddress, state.clinicData.address.number].includes('');
+            if (Array.isArray(state.clinicData.contactDetails) && state.clinicData.contactDetails.length > 0) {
+                const contactDetailsBool = !(state.clinicData.contactDetails.filter((el: TContactDetail) => el.contactDetail === '' || el.contactMethodInfo === '' || el.contactType === '').length > 0);
+                dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!clinicNameAndAddressBool || !contactDetailsBool) });
+            } else {
+                dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!clinicNameAndAddressBool) });
+            }
         } else {
-            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!clinicNameAndAddressBool) });
+            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: true });
         }
     }, [state.clinicData]);
 
@@ -149,6 +176,13 @@ export default function ManageClinics() {
         }
     }
 
+
+    /* -------- END OF NEW CLINICS METHODS ----------- */
+
+
+   
+    
+
     /* SEARCH FORM METHODS */
 
     /**
@@ -161,16 +195,10 @@ export default function ManageClinics() {
         const foundClinicData: TClinic = state.userData.clinics.find((el:TClinic) => el.clinicName === state.clinicData.clinicName);
         if (foundClinicData) {
             dispatch({ type: 'UPDATE_MODIFIED_CLINIC_ID', payload: foundClinicData.clinicId });
-            dispatch({ type: 'UPDATE_CLINIC_DATA', payload: {
-                clinicName: foundClinicData.clinicName,
-                address: {
-                    fullAddress: foundClinicData.address.fullAddress,
-                    number: foundClinicData.address.number,
-                    additionalInfo: foundClinicData.address.additionalInfo || ''
-                },
-                contactDetails: foundClinicData.contactDetails || []
-            }});
+            dispatch({ type: 'UPDATE_OLD_CLINIC_DATA', payload: foundClinicData });
+            dispatch({ type: 'UPDATE_CLINIC_DATA', payload: foundClinicData });
             dispatch({ type: 'UPDATE_SPINNER_VISIBLE', payload: false });
+            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: true });
             //_handleSearchContactDetails(foundClinicData);
         } else {
             dispatch({ type: 'UPDATE_SPINNER_VISIBLE', payload: false });
@@ -294,7 +322,7 @@ export default function ManageClinics() {
             </Grid2>
             <Grid2 xs={10} marginTop={5}>
                 <TextField 
-                    fullWidth 
+                    fullWidth
                     value={state.clinicData.address.number} 
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if (/^\d{0,4}$/.test(e.target.value)) {

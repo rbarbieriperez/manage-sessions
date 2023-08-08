@@ -28,7 +28,8 @@ interface IManageClinics {
     spinnerVisible: boolean,
     submitButtonClicked: boolean,
     alertConfig: TAlert,
-    modifiedClinicId: number
+    modifiedClinicId: number,
+    oldClinicData: Omit<TClinic, 'clinicId'>;
 }
 
 export const INITIAL_MANAGE_CLINICS:IManageClinics = {
@@ -40,6 +41,7 @@ export const INITIAL_MANAGE_CLINICS:IManageClinics = {
     spinnerVisible: false,
     modifiedClinicId: 0,
     clinicData: clinicInitialData,
+    oldClinicData: clinicInitialData,
     alertConfig: { visible: false, message: '', type: 'error' }
 }
 
@@ -54,6 +56,7 @@ type TAction = {
     'UPDATE_MODIFIED_CLINIC_ID' |
     'UPDATE_CLINIC_DATA' |
     'UPDATE_ALERT_CONFIG' |
+    'UPDATE_OLD_CLINIC_DATA' |
     'INITIAL_STATE',
     payload: any
 }
@@ -95,6 +98,10 @@ export const ManageClinicsReducer = (state: IManageClinics, action: TAction) => 
         case 'UPDATE_USER_DATA': return {
             ...state,
             userData: action.payload
+        };
+        case 'UPDATE_OLD_CLINIC_DATA': return {
+            ...state,
+            oldClinicData: action.payload
         };
         case 'INITIAL_STATE': return action.payload;
         default: return state;
