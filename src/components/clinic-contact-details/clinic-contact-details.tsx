@@ -22,8 +22,6 @@ const initialData:TContactDetail = {
 export default function ClinicContactDetails ({id, modifyData, onDataChanged, options}:IClinicContactDetails) {
     const [data, setData] = React.useState<TContactDetail>(modifyData ? modifyData: initialData);
 
-
-
     /**
      * Update the contact type label based on the received value
      * @param selectVal
@@ -45,7 +43,7 @@ export default function ClinicContactDetails ({id, modifyData, onDataChanged, op
 
     React.useEffect(() => {
         onDataChanged(data, id);
-    });
+    }, [data]);
 
     return <>
         <Grid2 container display={"flex"} rowGap={4} marginBottom={4}>

@@ -40,7 +40,7 @@ export default function ManageClinics() {
 
     React.useEffect(() => {
         dispatch({ type: 'UPDATE_USER_DATA', payload: UserDataProvider });
-    }, [UserDataProvider]);
+    }, [UserDataProvider, state.userData]);
 
     /**
      * Add a new contact detail element to DOM.
@@ -156,20 +156,35 @@ export default function ManageClinics() {
      * the contact details inputs
      */
     const _onSearchClick = () => {
-        dispatch({ type: 'UPDATE_SEARCH_FORM', payload: true });
         dispatch({ type: 'UPDATE_SPINNER_VISIBLE', payload: true });
-
-        const foundClinicData = state.userData.clinics.find((el:TClinic) => el.clinicName === state.clinicData.clinicName);
+        
+        const foundClinicData: TClinic = state.userData.clinics.find((el:TClinic) => el.clinicName === state.clinicData.clinicName);
         if (foundClinicData) {
-            dispatch({ type: 'UPDATE_CLINIC_DATA', payload: foundClinicData });
             dispatch({ type: 'UPDATE_MODIFIED_CLINIC_ID', payload: foundClinicData.clinicId });
+            dispatch({ type: 'UPDATE_CLINIC_DATA', payload: {
+                clinicName: foundClinicData.clinicName,
+                address: {
+                    fullAddress: foundClinicData.address.fullAddress,
+                    number: foundClinicData.address.number,
+                    additionalInfo: foundClinicData.address.additionalInfo || ''
+                },
+                contactDetails: foundClinicData.contactDetails || []
+            }});
             dispatch({ type: 'UPDATE_SPINNER_VISIBLE', payload: false });
-            _handleSearchContactDetails(foundClinicData);
+            //_handleSearchContactDetails(foundClinicData);
         } else {
             dispatch({ type: 'UPDATE_SPINNER_VISIBLE', payload: false });
             _openAlert('No existe la clínica ingresada!', 'error');
         }
+        dispatch({ type: 'UPDATE_SEARCH_FORM', payload: true });
     };
+
+    React.useEffect(() => {
+        console.log(state.clinicData);
+        if (state.modifiedClinicId) {
+            _handleSearchContactDetails(state.clinicData);
+        }
+    }, [state.clinicData]);
 
     const _handleSearchContactDetails = (clinicData: TClinic) => {
         if (clinicData.contactDetails) {
@@ -182,7 +197,7 @@ export default function ManageClinics() {
         }
     }
 
-    const _handleModifyClinic = React.useCallback(() => {
+    const _handleModifyClinic = () => {
         if (state.userData.clinics.length > 1) {
             const selectedClinicIndex = state.userData.clinics.findIndex((el: TClinic) => el.clinicId == state.modifiedClinicId);
             const newArr = state.userData.clinics.splice(selectedClinicIndex - 1, 1);
@@ -210,7 +225,7 @@ export default function ManageClinics() {
 
         dispatch({ type: 'UPDATE_SPINNER_VISIBLE', payload: true });
         dispatch({ type: 'UPDATE_SUBMIT_BUTTON_CLICKED', payload: true });
-    }, [state.clinicData]);
+    };
 
 
     const _openAlert = (message: string, type: 'success' | 'error') => {
@@ -219,6 +234,18 @@ export default function ManageClinics() {
         setTimeout(() => {
             dispatch({ type: 'UPDATE_ALERT_CONFIG', payload: { visible: false, message: '', type: 'error' }});
         }, 1500);
+    }
+
+    /**
+     * Method that returns a string with all the clinics names
+     * @returns {string}
+     */
+    const _computeClinicsNames = ():string => {
+        const names: string[] = [];
+        state.userData.clinics.forEach((clinic: TClinic) => {
+            names.push(clinic.clinicName);
+        });
+        return names.join(', ');
     }
 
     return <>
@@ -234,6 +261,9 @@ export default function ManageClinics() {
                         value={state.clinicData.clinicName}
                         onChange={_onClinicDataChange}
                         id="clinicName"
+                        inputProps={{
+                            maxLength: 50
+                        }}
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton onClick={_onSearchClick} disabled={state.clinicData?.clinicName?.length === 0}>
@@ -246,22 +276,26 @@ export default function ManageClinics() {
                         }
                         label="Nombre*"
                     />
+                    <Typography fontSize={13} marginLeft={1} marginTop={1} role='p'>Clínicas: {_computeClinicsNames()}</Typography>
                 </FormControl>
             </Grid2>
-            <Grid2 xs={10} marginTop={5}>
+            <Grid2 xs={10} marginTop={4}>
                 <TextField
                     fullWidth
-                    value={state.clinicData?.address?.fullAddress}
+                    value={state.clinicData.address.fullAddress}
                     onChange={_onClinicDataChange}
                     id="fullAddress"
                     label="Dirección completa*"
                     variant="outlined"
+                    inputProps={{
+                        maxLength: 100
+                    }}
                 />
             </Grid2>
             <Grid2 xs={10} marginTop={5}>
                 <TextField 
                     fullWidth 
-                    value={state.clinicData?.address?.number} 
+                    value={state.clinicData.address.number} 
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if (/^\d{0,4}$/.test(e.target.value)) {
                             _onClinicDataChange(e);
@@ -273,7 +307,17 @@ export default function ManageClinics() {
                 />
             </Grid2>
             <Grid2 xs={10} marginTop={5}>
-                <TextField fullWidth value={state.clinicData?.address?.additionalInfo} onChange={_onClinicDataChange} id="additionalInfo" label="Información Adicional" variant="outlined"/>
+                <TextField 
+                    fullWidth 
+                    value={state.clinicData.address.additionalInfo} 
+                    onChange={_onClinicDataChange} 
+                    id="additionalInfo" 
+                    label="Información Adicional" 
+                    variant="outlined"
+                    inputProps={{
+                        maxLength: 100
+                    }}
+                />
             </Grid2>
             <Grid2 xs={10} marginTop={3} display={"flex"} flexWrap={"wrap"}>
                 <Typography flexBasis={"100%"} marginTop={1} variant='h2' fontSize={22  }>Información de contacto</Typography>

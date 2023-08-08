@@ -11,7 +11,7 @@ export default function HelperScreen() {
                 <Typography>Primero agrega clínicas y pacientes para poder continuar.</Typography>
                 <Typography>Ingresando al menu en la barra de navegación.</Typography>
             </Grid2>
-            <Grid2 position={"absolute"} top={0} height={"95%"} width={"100%"} sx={{ backgroundColor: 'white', opacity: '0.7'}}>
+            <Grid2 zIndex={99} position={"absolute"} top={0} height={"100%"} width={"100%"} sx={{ backgroundColor: 'white' }}>
             </Grid2>
         </Grid2>
     </>

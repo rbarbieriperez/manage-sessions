@@ -70,7 +70,7 @@ export const ManageClinicsReducer = (state: IManageClinics, action: TAction) => 
         };
         case 'UPDATE_CLINIC_DATA': return {
             ...state,
-            clinicData: typeof action.payload === 'object' ? action.payload : action.payload()
+            clinicData: action.payload
         };
         case 'UPDATE_CONTACT_DETAILS_ELS': return {
             ...state,
