@@ -61,6 +61,7 @@ export default function ClinicContactDetails ({id, modifyData, onDataChanged, op
                 disabled={false}
                 label='Tipo*'
                 optionsArr={options}
+                data-testid="select-custom"
             />
             <TextField
                 fullWidth
