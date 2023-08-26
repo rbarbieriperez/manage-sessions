@@ -8,16 +8,6 @@ import React from 'react';
 import { TPages } from '../../types/types';
 
 
-
-interface ILateralCustomMenu {
-    menuItemSelected: (optionName: TPages) => void;
-}
-
-
-export type TLateralMenuCustom = {
-    toggleMenu: () => void;
-}
-
 const listOptions = [
     {
         index: 1,
@@ -47,18 +37,14 @@ const listOptions = [
 ];
 
 
-const LateralMenuCustom = React.forwardRef<TLateralMenuCustom, ILateralCustomMenu>(({menuItemSelected}: ILateralCustomMenu, ref) => {
-    const [isOpened, setIsOpened] = React.useState(false);
+interface ILateralMenuCustom  {
+    open: boolean;
+    menuItemSelected: (optionName: TPages) => void;
+}
 
-    const _toggleMenu = () => {
-        setIsOpened(!isOpened);
-    }
 
-    React.useImperativeHandle(ref, () => ({
-        toggleMenu() {
-            _toggleMenu();
-        }
-    }), []);
+const LateralMenuCustom = ({ open = false, menuItemSelected }: ILateralMenuCustom) => {
+    const [isOpened, setIsOpened] = React.useState(open);
 
     const _onOptionSelected = (e: React.MouseEvent) => {
         const { id } = e.currentTarget;
@@ -82,14 +68,13 @@ const LateralMenuCustom = React.forwardRef<TLateralMenuCustom, ILateralCustomMen
         <Box
             sx={{ width: 'auto' }}
             role="presentation"
-            onClick={()=> _toggleMenu()}
-            onKeyDown={() => _toggleMenu()}
+            onClick={()=> setIsOpened(false)}
             component="div"
         >
             <List>
                 {listOptions.map((option) => (
                 <ListItem key={option.index} disablePadding>
-                    <ListItemButton id={option.index.toString()} onClick={(e: React.MouseEvent) => _onOptionSelected(e)}>
+                    <ListItemButton data-testid="menu-item" id={option.index.toString()} onClick={(e: React.MouseEvent) => _onOptionSelected(e)}>
                         <ListItemIcon>
                             {option.icon}
                         </ListItemIcon>
@@ -100,19 +85,17 @@ const LateralMenuCustom = React.forwardRef<TLateralMenuCustom, ILateralCustomMen
             </List>
 
         </Box>
-      </>
+    </>
 
     return <>
         <Drawer
             anchor='left'
             open={isOpened}
-            onClose={_toggleMenu}
+            onClose={() => setIsOpened(false)}
         >
             {_renderList()}
         </Drawer>
     </>
-
-
-});
+}
 
 export default LateralMenuCustom;

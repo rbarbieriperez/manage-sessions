@@ -3,7 +3,7 @@ import './App.css';
 import AddSession from './views/add-session/add-session';
 import sessionsType from './mock-data/sessionsType.json';
 import HeaderCustom from './components/header-custom/header-custom';
-import LateralMenuCustom, { TLateralMenuCustom } from './components/lateral-menu-custom/LateralMenuCustom';
+import LateralMenuCustom from './components/lateral-menu-custom/LateralMenuCustom';
 import ManageClinics from './views/manage-clinics/manage-clinics';
 import { TPages, TUserData } from './types/types';
 import {_saveData } from './firebase/_queries';
@@ -40,20 +40,14 @@ function App() {
   const [headerText, setHeaderText] = React.useState('Agregar Sesión');
   const [userData, setUserData] = React.useState<TUserData>(initialUserData);
   const [showHelperScreen, setShowHelperScreen] = React.useState<boolean>(false);
-  const lateralMenuRef = React.useRef<TLateralMenuCustom>(null);
+  const [lateralMenuIsOpen, setLateralMenuIsOpen] = React.useState<boolean>(false);
   const [alertConfig, setAlertConfig] = React.useState<TAlert>({ visible: false, message: "", type: "error" });
-
-  const _openMenu = () => {
-    if (lateralMenuRef.current) {
-      lateralMenuRef.current.toggleMenu();
-    }
-  }
 
   const _handleMenuOptionSelected = (selectedOption: TPages) => {
     setCurrentPage(selectedOption);
   }
 
-  const _renderMenu = () => <LateralMenuCustom menuItemSelected={_handleMenuOptionSelected} ref={lateralMenuRef}/>
+  const _renderMenu = () => <LateralMenuCustom menuItemSelected={_handleMenuOptionSelected} open={lateralMenuIsOpen}/>
 
   /**
    * Method to handle login success, if the user is new and no data is retrieved,
@@ -142,7 +136,7 @@ function App() {
   return (
     <UserDataContext.Provider value={ userData }>
       <main>
-        {currentPage !== 'login' ?  <HeaderCustom headerTitle={headerText} onMenuClick={_openMenu}/> : ''}
+        {currentPage !== 'login' ?  <HeaderCustom headerTitle={headerText} onMenuClick={() => setLateralMenuIsOpen(true)}/> : ''}
         {_renderPage()}
         {_renderMenu()}
         { showHelperScreen ? <HelperScreen/> : ''}
@@ -152,13 +146,12 @@ function App() {
                 <Slide in={alertConfig.visible} direction="left">
                     <Stack sx={{ width: "70%", position: "absolute", bottom: "15px", right: "0" }}>
                         <Alert variant='filled' severity={alertConfig.type}>{alertConfig.message}</Alert>
-                    </Stack> 
+                    </Stack>
                 </Slide>
             : ''
         }
       </main>
     </UserDataContext.Provider>
-    
   );
 }
 
