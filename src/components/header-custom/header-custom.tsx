@@ -13,12 +13,12 @@ export default function HeaderCustom ({headerTitle = '', onMenuClick }: IHeaderC
         <header>
             <Grid2 container boxShadow={3}>
                 <Grid2 xs={2}>
-                    <IconButton onClick={() => (onMenuClick && onMenuClick())}>
+                    <IconButton data-testid="menu-button" onClick={() => (onMenuClick && onMenuClick())}>
                         <MenuIcon/>
                     </IconButton>
                 </Grid2>
                 <Grid2 xs={10} display={"flex"}>
-                    <Typography width="fit-content" position={"absolute"} margin={".6rem auto"} left={0} right={0}>{headerTitle}</Typography>
+                    <Typography data-testid="header-title" width="fit-content" position={"absolute"} margin={".6rem auto"} left={0} right={0}>{headerTitle}</Typography>
                 </Grid2>
             </Grid2>
         </header>
