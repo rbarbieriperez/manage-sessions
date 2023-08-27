@@ -47,7 +47,7 @@ function App() {
     setCurrentPage(selectedOption);
   }
 
-  const _renderMenu = () => <LateralMenuCustom menuItemSelected={_handleMenuOptionSelected} open={lateralMenuIsOpen}/>
+  const _renderMenu = () => <LateralMenuCustom onMenuClose={() => setLateralMenuIsOpen(false)} menuItemSelected={_handleMenuOptionSelected} open={lateralMenuIsOpen}/>
 
   /**
    * Method to handle login success, if the user is new and no data is retrieved,

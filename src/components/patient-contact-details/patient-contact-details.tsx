@@ -1,5 +1,5 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
-import React from 'react';
+import React, { useCallback } from 'react';
 import SelectCustom from '../select-custom/select-custom';
 import { TextField, ToolbarProps } from '@mui/material';
 import { TFamily, TOption } from '../../types/types';
@@ -71,6 +71,7 @@ export default function ContactDetails({onDataChanged, id, modifyData }: IContac
                 label='Relación*'
                 value={_getRelationTypeValue(data.relationType)}
                 optionsArr={relationshipOptionsArr}
+                key={'patient-contact-details-select-1'}
             />
             <TextField
                 fullWidth
@@ -94,11 +95,12 @@ export default function ContactDetails({onDataChanged, id, modifyData }: IContac
                 value={data.lastSurname}
             />
             <SelectCustom
-                onChange={onContactTypeChanged} 
+                onChange={onContactTypeChanged}
                 disabled={false}
                 label='Tipo*'
                 optionsArr={typeOptionsArr}
                 value={_getContactTypeValue(data.contactType)}
+                key={'patient-contact-details-select-2'}
             />
             <TextField
                 fullWidth

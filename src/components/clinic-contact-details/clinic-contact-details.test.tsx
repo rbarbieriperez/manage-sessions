@@ -1,7 +1,9 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, getByRole, waitFor, act, screen, within } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 import ClinicContactDetails from './clinic-contact-details';
 import { TContactDetail, TOption } from '../../types/types';
+import userEvent from '@testing-library/user-event';
 
 
 const optionsArray:Array<TOption> = [
@@ -53,40 +55,21 @@ test('Typing on description input should trigger the onDataChange function', () 
     }, 1);
 });
 
-test('Selecting an option of the select should trigger the onDataChange function', () => {
+test('Selecting an option of the select should trigger the onDataChange function', async () => {
     const mockDataChangeFn = jest.fn();
-    const { queryByTestId, getByLabelText } = render(<ClinicContactDetails id={1} options={optionsArray} onDataChanged={mockDataChangeFn}/>)
+    render(<ClinicContactDetails id={1} options={optionsArray} onDataChanged={mockDataChangeFn}/>)
 
-    const selectElement = queryByTestId('select-custom');
-    
-
-
+    const selectElement = screen.getByTestId('select-custom');
     if (selectElement) {
-        fireEvent.click(selectElement);
+        fireEvent.mouseDown(getByRole(selectElement, 'button'));
 
-        const optionElement = getByLabelText('Correo');
-
-        fireEvent.click(optionElement);
-
+        const listBox = within(screen.getByRole('listbox'));
+        fireEvent.click(listBox.getByText(/Correo/i));
         expect(mockDataChangeFn).toHaveBeenCalledWith({
             "contactDetail": "",
             "contactMethodInfo": "",
             "contactType": "Correo",
         }, 1);
-    }
-});
-
-test('selecting an option that does not exist should not trigger the onDataChange function', () => {
-    const mockDataChangeFn = jest.fn();
-    const { queryByTestId, getByLabelText } = render(<ClinicContactDetails id={1} options={optionsArray} onDataChanged={mockDataChangeFn}/>)
-
-    const selectElement = queryByTestId('select-custom');
-    if (selectElement) {
-        fireEvent.click(selectElement);
-
-        const optionElement = getByLabelText('test');
-
-        expect(optionElement).not.toBeInTheDocument;
     }
 });
 

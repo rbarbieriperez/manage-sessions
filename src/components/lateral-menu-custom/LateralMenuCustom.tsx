@@ -40,11 +40,11 @@ const listOptions = [
 interface ILateralMenuCustom  {
     open: boolean;
     menuItemSelected: (optionName: TPages) => void;
+    onMenuClose: () => void;
 }
 
 
-const LateralMenuCustom = ({ open = false, menuItemSelected }: ILateralMenuCustom) => {
-    const [isOpened, setIsOpened] = React.useState(open);
+const LateralMenuCustom = ({ open = false, menuItemSelected, onMenuClose }: ILateralMenuCustom) => {
 
     const _onOptionSelected = (e: React.MouseEvent) => {
         const { id } = e.currentTarget;
@@ -68,7 +68,7 @@ const LateralMenuCustom = ({ open = false, menuItemSelected }: ILateralMenuCusto
         <Box
             sx={{ width: 'auto' }}
             role="presentation"
-            onClick={()=> setIsOpened(false)}
+            onClick={onMenuClose}
             component="div"
         >
             <List>
@@ -90,8 +90,9 @@ const LateralMenuCustom = ({ open = false, menuItemSelected }: ILateralMenuCusto
     return <>
         <Drawer
             anchor='left'
-            open={isOpened}
-            onClose={() => setIsOpened(false)}
+            open={open}
+            onClose={onMenuClose}
+            data-testid="menu-testid"
         >
             {_renderList()}
         </Drawer>

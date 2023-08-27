@@ -26,7 +26,7 @@ export default function SelectCustom ({ label, onChange, optionsArr, disabled = 
     }
 
     React.useEffect(() => {
-        if (selectedValue !== undefined) {
+        if (selectedValue !== undefined && selectedValue !== value) {
             onChange(Number(selectedValue), id);
         }
     }, [selectedValue]);
@@ -43,9 +43,12 @@ export default function SelectCustom ({ label, onChange, optionsArr, disabled = 
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">{label}</InputLabel>
             <Select
+                //inputProps={{ "data-testid": "select-custom" }}
+                data-testid="select-custom"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={selectedValue.toString()}
+                key={id + 'select-custom'}
                 defaultValue=''
                 label={label}
                 onChange={(e: SelectChangeEvent) => setSelectedValue(Number(e.target.value))}
