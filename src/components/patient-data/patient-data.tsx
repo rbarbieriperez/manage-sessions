@@ -41,7 +41,9 @@ export default function PatientData({onDataChanged, modifyData, formSubmitted, o
 
 
     React.useEffect(() => {
-        onDataChanged(data);
+        if (JSON.stringify(data) !== JSON.stringify(patientInitialData)) {
+            onDataChanged(data);
+        }
     }, [data]);
 
     React.useEffect(() => {
@@ -65,9 +67,11 @@ export default function PatientData({onDataChanged, modifyData, formSubmitted, o
                         value={data.name}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData((prev) => ({...prev, name: e.target.value }))}
                         id="name"
+                        role='textbox'
+                        data-testid="outlined-input"
                         endAdornment={
                             <InputAdornment position="end">
-                                <IconButton onClick={_handleFormReset}>
+                                <IconButton data-testid="reset-button" onClick={_handleFormReset}>
                                     <CachedIcon/>
                                 </IconButton>
                             </InputAdornment>
@@ -113,7 +117,8 @@ export default function PatientData({onDataChanged, modifyData, formSubmitted, o
                     min: 1,
                     maxLength: 10,
                     inputMode: "numeric",
-                    pattern: "[0-9]*"
+                    pattern: "[0-9]*",
+                    role: "textbox"
                 }}
             />
             <TextField
@@ -123,6 +128,7 @@ export default function PatientData({onDataChanged, modifyData, formSubmitted, o
                 variant="outlined"
                 value={data.sessionValue ? data.sessionValue : ""}
                 type="number"
+                role='textbox'
                 inputProps={{
                     min: 0,
                     maxLength: 10,
