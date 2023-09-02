@@ -30,7 +30,6 @@ export type TSession = {
     sessionId: number;
     patientId: number;
     clinicId: number;
-    sessionType: string;
     sessionValue: number;
     sessionDate: string;
     sessionObs: string;

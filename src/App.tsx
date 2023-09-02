@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import AddSession from './views/add-session/add-session';
-import sessionsType from './mock-data/sessionsType.json';
 import HeaderCustom from './components/header-custom/header-custom';
 import LateralMenuCustom from './components/lateral-menu-custom/LateralMenuCustom';
 import ManageClinics from './views/manage-clinics/manage-clinics';
@@ -15,6 +14,7 @@ import initApp from './firebase/_config';
 import ManagePatients from './views/manage-patients/manage-patients';
 import HelperScreen from './components/helper-screen/helper-screen';
 import { Alert, Slide, Stack } from '@mui/material';
+import Reports from './views/reports/reports';
 
 
 
@@ -86,9 +86,10 @@ function App() {
   const _renderPage = () => {
     switch (currentPage) {
       case 'login': return <Login onLoginSuccess={_handleLoginSuccess} onLoginError={() => {}}/>
-      case 'home': return <AddSession onAlert={toggleModal} sessionTypeData={sessionsType}/>;
+      case 'home': return <AddSession onAlert={toggleModal}/>;
       case 'manage-clinics': return <ManageClinics/>;
-      case 'manage-patients': return <ManagePatients/>
+      case 'manage-patients': return <ManagePatients/>;
+      case 'reports': return <Reports/>
     }
   }
 

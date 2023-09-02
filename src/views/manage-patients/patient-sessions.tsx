@@ -206,7 +206,6 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
                         return <Grid2 key={'session-' + index} xs={10} border={1} padding={"15px"} borderRadius={5} sx={{ backgroundColor: "lightcyan" }} boxShadow={3}>
                             <Grid2 xs={12} position={"relative"}>
                                 <Typography fontSize={14}>{_computeDate(sesion.sessionDate)}</Typography>
-                                <Typography fontSize={14}>{sesion.sessionType}</Typography>
                                 <IconButton  onClick={() => _handleDeleteSession(sesion.sessionId)} sx={{ position: "absolute", right: "-.8rem", top: "-1rem" }}>
                                     <CloseIcon sx={{ width: "16px" }}/>
                                 </IconButton>
