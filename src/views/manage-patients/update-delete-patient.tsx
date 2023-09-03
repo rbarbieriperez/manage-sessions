@@ -64,7 +64,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
     // Component did mount correctly
     React.useEffect(() => {
         dispatch({ type: 'UPDATE_CLINICS_OPTIONS_ARRAY', payload: createClinicsOptionsArray() });
-    }, [state.formSubmitted]);
+    }, [state.clinicsOptionsArray]);
 
 
     //Method to handle clinic change and set the patients on clinic
@@ -168,6 +168,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
         }
 
         dispatch({ type: 'INITIAL_STATE', payload: INITIAL_UPDATE_DELETE_DATA });
+        onPatientSelected(0);
     }
 
 
@@ -181,6 +182,11 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
         }
         console.log(state.selectedPatient);
     }, [state.selectedPatient]);
+
+    const _onFormReset = () => {
+        dispatch({ type: 'INITIAL_STATE', payload: INITIAL_UPDATE_DELETE_DATA });
+        onPatientSelected(0);
+    }
 
 
     return <>
@@ -197,6 +203,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                 <SelectCustom
                     label='Pacientes en clínica'
                     optionsArr={state.patientsOnClinic}
+                    value={state.selectedPatient.patientId === 0 ? '0' : state.selectedPatient.patientId}
                     onChange={(elId: number) => onPatientChange(elId)}
                     disabled={state.selectPatientDisabled || state.patientsOnClinic.length === 0 ? true : false}
                 />
@@ -208,7 +215,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                    <PatientData
                         modifyData={state.selectedPatient} 
                         onDataChanged={onPatientDataChanged}
-                        onFormReset={() => dispatch({ type: 'INITIAL_STATE', payload: INITIAL_UPDATE_DELETE_DATA })}
+                        onFormReset={_onFormReset}
                         formSubmitted={state.formSubmitted}
                     />
 
