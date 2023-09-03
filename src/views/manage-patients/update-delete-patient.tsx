@@ -66,6 +66,10 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
         dispatch({ type: 'UPDATE_CLINICS_OPTIONS_ARRAY', payload: createClinicsOptionsArray() });
     }, [state.clinicsOptionsArray]);
 
+    React.useEffect(() => {
+        onPatientSelected(0);
+    }, []);
+
 
     //Method to handle clinic change and set the patients on clinic
     const onClinicChange = (selectedOption:number, selectId: string) => {
