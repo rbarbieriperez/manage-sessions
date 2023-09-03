@@ -6,6 +6,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import React from 'react';
 import { TPages } from '../../types/types';
+import DownloadPWAButton from '../download-pwa-button/download-pwa-button';
 import Grid2 from '@mui/material/Unstable_Grid2';
 
 
@@ -97,8 +98,9 @@ const LateralMenuCustom = ({ open = false, menuItemSelected, onMenuClose }: ILat
         >
             {_renderList()}
             <Grid2 position={"absolute"} xs={12} textAlign={"center"} bottom={10}>
-              <Typography fontSize={12}>- Desarrollado por Rodrigo Barbieri 2023 -</Typography>
-              <Typography fontSize={12}>¿Encontraste algun error? ¡Reportalo a rbarbieriperez@gmail.com!</Typography>
+                <DownloadPWAButton/>
+                <Typography fontSize={12}>- Desarrollado por Rodrigo Barbieri 2023 -</Typography>
+                <Typography fontSize={12}>¿Encontraste algun error? ¡Reportalo a rbarbieriperez@gmail.com!</Typography>
             </Grid2>
         </Drawer>
     </>
