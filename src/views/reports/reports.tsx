@@ -4,7 +4,7 @@ import { Typography } from '@mui/material';
 import { UserDataContext } from '../../App';
 import { REPORTS_INITIAL_DATA, ReportsReducer } from '../../reducers/reports-reducer';
 import DateFilter from '../../components/date-filter/date-filter';
-import { TClinic, TPages, TPatient, TSession } from '../../types/types';
+import { TClinic, TPatient, TSession } from '../../types/types';
 import ShowData from '../../components/show-data/show-data';
 
 

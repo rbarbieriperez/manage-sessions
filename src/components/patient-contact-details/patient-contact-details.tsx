@@ -1,7 +1,7 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
-import React, { useCallback } from 'react';
+import React from 'react';
 import SelectCustom from '../select-custom/select-custom';
-import { TextField, ToolbarProps } from '@mui/material';
+import { TextField } from '@mui/material';
 import { TFamily, TOption } from '../../types/types';
 import { relationshipOptionsArr, typeOptionsArr } from '../../utils/objects';
 

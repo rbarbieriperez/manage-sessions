@@ -1,5 +1,5 @@
 import React from 'react';
-import { TPatient, TClinic, TSessionType, TUserData } from '../../types/types';
+import { TPatient, TClinic } from '../../types/types';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { Button, TextField } from '@mui/material';
 import SelectCustom from '../../components/select-custom/select-custom';

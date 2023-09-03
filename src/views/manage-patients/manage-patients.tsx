@@ -6,10 +6,8 @@ import UpdateDeletePatient from './update-delete-patient';
 import PatientSessions from './patient-sessions';
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import PersonIcon from '@mui/icons-material/Person';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 type TFormType = 'create' | 'update-delete' | 'sessions';
 type TAlert = {
