@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { EventHandler } from "react";
+import React from "react";
 
 
 const DownloadPWAButton = () => {
@@ -10,12 +10,13 @@ const DownloadPWAButton = () => {
         const handler = (e: any) => {
             e.preventDefault();
             setSupportsPWA(true);
+            console.log('ejecuto');
             setPromptInstall(e);
         };
 
         window.addEventListener('beforeinstallprompt', handler);
 
-        return () => window.removeEventListener('beforeinstallprompt', handler);
+        return () => window.removeEventListener('transitionend', handler);
     }, []);
 
     const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
