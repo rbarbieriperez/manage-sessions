@@ -82,6 +82,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
         const foundPatient = UserDataProvider.patients.find((patient: TPatient) => patient.patientId === selectedOption);
         if (foundPatient) {
             dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: foundPatient });
+            dispatch({ type: 'UPDATE_SELECTED_PATIENT_OLD', payload: foundPatient });
             dispatch({ type: 'UPDATE_SELECT_PATIENT_DISABLED', payload: true });
             dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: false });
             onPatientSelected(foundPatient.patientId);
@@ -177,14 +178,17 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
 
 
     React.useEffect(() => {
-        const patientDataBool = ![state.selectedPatient.name, state.selectedPatient.surname].includes('') && !(Number.isNaN(state.selectedPatient.sessionTime )) && !(state.selectedPatient.age === 0) && !(state.selectedPatient.sessionTime === 0);
-        if (Array.isArray(state.selectedPatient.family) && state.selectedPatient.family.length > 0) {
-            const contactDetailsBool = !(state.selectedPatient.family.filter((el: TFamily) => el.name === '' || el.surname === '' || el.relationType === '' || el.contactType === '' || el.contactDetail === '').length > 0);
-            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool || !contactDetailsBool)});
+        if (JSON.stringify(state.selectedPatientOld) !== JSON.stringify(state.selectedPatient)) {
+            const patientDataBool = ![state.selectedPatient.name, state.selectedPatient.surname].includes('') && !(Number.isNaN(state.selectedPatient.sessionTime )) && !(state.selectedPatient.age === 0) && !(state.selectedPatient.sessionTime === 0);
+            if (Array.isArray(state.selectedPatient.family) && state.selectedPatient.family.length > 0) {
+                const contactDetailsBool = !(state.selectedPatient.family.filter((el: TFamily) => el.name === '' || el.surname === '' || el.relationType === '' || el.contactType === '' || el.contactDetail === '').length > 0);
+                dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool || !contactDetailsBool)});
+            } else {
+                dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool)});
+            }
         } else {
-            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool)});
+            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: true });
         }
-        console.log(state.selectedPatient);
     }, [state.selectedPatient]);
 
     const _onFormReset = () => {

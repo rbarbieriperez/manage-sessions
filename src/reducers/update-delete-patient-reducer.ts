@@ -28,7 +28,7 @@ interface IUpdateDeletePatientReducer {
     selectPatientDisabled: boolean,
     formSubmitted: boolean,
     modalDialogOpen: boolean,
-    selectedPatientFamily: TFamily[]
+    selectedPatientOld: TPatient
 }
 
 export const INITIAL_UPDATE_DELETE_DATA:IUpdateDeletePatientReducer = {
@@ -40,7 +40,7 @@ export const INITIAL_UPDATE_DELETE_DATA:IUpdateDeletePatientReducer = {
     selectPatientDisabled: false,
     formSubmitted: false,
     modalDialogOpen: false,
-    selectedPatientFamily: []
+    selectedPatientOld: initialPatientData
 }
 
 type TAction = {
@@ -49,10 +49,9 @@ type TAction = {
     | 'UPDATE_PATIENTS_ON_CLINIC'
     | 'UPDATE_SELECTED_CLINIC'
     | 'UPDATE_SELECTED_PATIENT'
-    | 'UPDATE_SELECTED_PATIENT_FAMILY'
+    | 'UPDATE_SELECTED_PATIENT_OLD'
     | 'UPDATE_SELECT_PATIENT_DISABLED'
     | 'UPDATE_FORM_SUBMITTED'
-    | 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS'
     | 'UPDATE_MODAL_DIALOG_OPEN'
     | 'INITIAL_STATE'
     payload: any
@@ -89,10 +88,10 @@ export const updateDeletePatientReduce = (state: IUpdateDeletePatientReducer, ac
             ...state,
             selectedPatient: action.payload
         };
-        case 'UPDATE_SELECTED_PATIENT_FAMILY': return {
+        case 'UPDATE_SELECTED_PATIENT_OLD': return {
             ...state,
-            selectedPatientFamily: action.payload
-        };
+            selectedPatientOld: action.payload
+        }
         case 'UPDATE_SELECT_PATIENT_DISABLED': return {
             ...state,
             selectPatientDisabled: action.payload
