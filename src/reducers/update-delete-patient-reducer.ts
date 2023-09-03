@@ -1,4 +1,4 @@
-import { TClinic, TOption, TPatient } from "../types/types";
+import { TClinic, TFamily, TOption, TPatient } from "../types/types";
 
 
 const initialPatientData:TPatient = {
@@ -27,8 +27,8 @@ interface IUpdateDeletePatientReducer {
     selectedPatient: TPatient,
     selectPatientDisabled: boolean,
     formSubmitted: boolean,
-    familyContactDetailsElements: React.ReactElement[],
     modalDialogOpen: boolean,
+    selectedPatientFamily: TFamily[]
 }
 
 export const INITIAL_UPDATE_DELETE_DATA:IUpdateDeletePatientReducer = {
@@ -39,8 +39,8 @@ export const INITIAL_UPDATE_DELETE_DATA:IUpdateDeletePatientReducer = {
     selectedPatient: initialPatientData,
     selectPatientDisabled: false,
     formSubmitted: false,
-    familyContactDetailsElements: [],
-    modalDialogOpen: false
+    modalDialogOpen: false,
+    selectedPatientFamily: []
 }
 
 type TAction = {
@@ -49,6 +49,7 @@ type TAction = {
     | 'UPDATE_PATIENTS_ON_CLINIC'
     | 'UPDATE_SELECTED_CLINIC'
     | 'UPDATE_SELECTED_PATIENT'
+    | 'UPDATE_SELECTED_PATIENT_FAMILY'
     | 'UPDATE_SELECT_PATIENT_DISABLED'
     | 'UPDATE_FORM_SUBMITTED'
     | 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS'
@@ -67,10 +68,6 @@ export const updateDeletePatientReduce = (state: IUpdateDeletePatientReducer, ac
         case 'UPDATE_CLINICS_OPTIONS_ARRAY': return {
             ...state,
             clinicsOptionsArray: action.payload
-        };
-        case 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS': return {
-            ...state,
-            familyContactDetailsElements: action.payload
         };
         case 'UPDATE_FORM_SUBMITTED': return {
             ...state,
@@ -91,6 +88,10 @@ export const updateDeletePatientReduce = (state: IUpdateDeletePatientReducer, ac
         case 'UPDATE_SELECTED_PATIENT': return {
             ...state,
             selectedPatient: action.payload
+        };
+        case 'UPDATE_SELECTED_PATIENT_FAMILY': return {
+            ...state,
+            selectedPatientFamily: action.payload
         };
         case 'UPDATE_SELECT_PATIENT_DISABLED': return {
             ...state,

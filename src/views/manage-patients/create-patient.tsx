@@ -115,9 +115,10 @@ export default function CreatePatient({onAlert}:ICreatePatient) {
      * Remove last family contact details element from DOM and from the patient's data
      */
     const removeLastFamilyContactDetailsElement = () => {
-        dispatch({ type: 'SET_CONTACTDETAILS_ELEMENTS', payload: {
+        console.log(state);
+        dispatch({ type: 'SET_CONTACTDETAILS_ELEMENTS', payload: [
             ...state.familyContactDetailsElements.slice(0, -1)
-        }});
+        ]});
 
         dispatch({ type: 'SET_PATIENT_DATA', payload: {
             ...state.patientData,
@@ -155,7 +156,7 @@ export default function CreatePatient({onAlert}:ICreatePatient) {
                 <IconButton disabled={state.familyContactDetailsElements.length > 2} onClick={requestNewFamilyContactDetailsElement}>
                     <AddBoxIcon/>
                 </IconButton>
-                <IconButton onClick={removeLastFamilyContactDetailsElement}>
+                <IconButton disabled={state.familyContactDetailsElements.length === 0} onClick={removeLastFamilyContactDetailsElement}>
                     <RemoveCircleIcon/>
                 </IconButton>
             </Grid2>
