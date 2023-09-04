@@ -28,12 +28,8 @@ const DownloadPWAButton = () => {
         promptInstall.prompt();
     }
 
-    if (!supportsPWA) {
-        return null;
-    }
-
     return <>
-        <Button variant="contained" color="success" onClick={onClick}>
+        <Button sx={{ marginBottom: '10px' }} variant="contained" color="success" onClick={onClick}>
             Bajar App Móvil
         </Button>
     </>
