@@ -209,7 +209,7 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
                     <Grid2 xs={10} marginTop={-3}>
                         <Typography variant='subtitle2'>Total de Sesiones: {state.filteredSessions.length}</Typography>
                     </Grid2>
-                    <Grid2 marginBottom={5} marginTop={-4} xs={12} display={"flex"} flexDirection={"column"} alignItems={"center"}>
+                    <Grid2 height={"auto"} marginBottom={5} marginTop={-4} xs={12} display={"flex"} flexDirection={"column"} alignItems={"center"}>
                         {state.filteredSessions.map((sesion: TSession, index: number) => {
                             return <Grid2 marginTop={3} key={'session-' + index} xs={10} border={1} padding={"15px"} borderRadius={5} sx={{ backgroundColor: "lightcyan" }} boxShadow={3}>
                                 <Grid2 xs={12} position={"relative"}>
@@ -219,7 +219,7 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
                                     </IconButton>
                                 </Grid2>
                                 <Grid2 xs={12} marginTop={2}>
-                                    <Typography fontSize={14}>{sesion.sessionObs}</Typography>
+                                    <Typography sx={{ wordWrap: 'break-word' }} fontSize={14}>{sesion.sessionObs}</Typography>
                                 </Grid2>
                             </Grid2>
                         })}
