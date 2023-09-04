@@ -97,7 +97,7 @@ const LateralMenuCustom = ({ open = false, menuItemSelected, onMenuClose }: ILat
         >
             {_renderList()}
             <Grid2 position={"absolute"} xs={12} textAlign={"center"} bottom={10}>
-                <Typography fontSize={12}>- Desarrollado por Rodrigo Barbieri 2023 -</Typography>
+                <Typography fontSize={12}>-© Desarrollado por Rodrigo Barbieri 2023 -</Typography>
                 <Typography fontSize={12}>¿Encontraste algun error? ¡Reportalo a rbarbieriperez@gmail.com!</Typography>
             </Grid2>
         </Drawer>
