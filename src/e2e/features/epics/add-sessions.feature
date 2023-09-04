@@ -1,0 +1,1 @@
+    Scenario: The user adds a new session
