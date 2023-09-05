@@ -36,7 +36,7 @@ export default function CreatePatient({onAlert}:ICreatePatient) {
                 value: curr.clinicId
             }
         ]
-    }, []);
+    }, []).sort((a,b) => a.label.localeCompare(b.label));
 
 
     // Component first render

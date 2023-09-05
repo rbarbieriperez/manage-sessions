@@ -45,6 +45,7 @@ const DateFilter = ({onInitialDateChanged, onLastDateChanged}: IDateFilter) => {
                     <DatePicker
                         defaultValue={dayjs(`${new Date().getUTCMonth() + 1}/${new Date().getUTCDate()}/${new Date().getUTCFullYear()}`)}
                         onChange={(value: dayjs.Dayjs | null) => onLastDateChanged(_parseDate(value))}
+                        maxDate={dayjs(new Date())}
                     />
                 </LocalizationProvider>
             </Grid2>

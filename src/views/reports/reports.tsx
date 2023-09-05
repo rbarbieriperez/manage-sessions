@@ -53,6 +53,12 @@ const Reports = () => {
         dispatch({ type: 'UPDATE_SESSIONS_PER_CLINIC', payload: _generateSessionsPerClinicData() });
     }, [state.filteredSessions]);
 
+    React.useEffect(() => {
+        if (!toggleEarnsVisibility) {
+            setEarnsValue(state.sessionsEarns);
+        }
+    }, [state.sessionsEarns]);
+
 
     const _calculateAllSessionsEarns = (): number => {
         return state.filteredSessions.reduce((acc: number, curr: TSession) => acc + curr.sessionValue, 0);
@@ -62,9 +68,6 @@ const Reports = () => {
      * Generates the options data array with all the sessions per clinic
      */
     const _generateSessionsPerClinicData = () => {
-        if (state.filteredSessions.length === 0) {
-            return [];
-        }
         const clinicIds: number[] = state.userData.clinics.map((clinic: TClinic) => clinic.clinicId);
         return clinicIds.map((clinicId: number) => ({
             label: state.userData.clinics.find((clinic: TClinic) => clinic.clinicId === clinicId).clinicName,
@@ -147,16 +150,11 @@ const Reports = () => {
             </Grid2>
 
             <Grid2 xs={11} marginTop={3}>
-                {
-                    state.sessionsPerClinic.length !== 0 ?
-                    <AnimatedWrapper title='Sesiones por clínica'
+                <AnimatedWrapper title='Sesiones por clínica'
                     component={<ShowData
-                        title='Sesiones por clínica'
-                        data={state.sessionsPerClinic}
-                    />}/>
-                     : ''
-                }
-
+                    title='Sesiones por clínica'
+                    data={state.sessionsPerClinic}
+                />}/>
             </Grid2>
 
             <Grid2 xs={11} marginTop={3}>

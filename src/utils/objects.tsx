@@ -1,18 +1,14 @@
 export const sessionTimeOptions = [
     {
         value: 1,
-        label: '15m'
-    },
-    {
-        value: 2,
         label: '30m'
     },
     {
-        value: 3,
+        value: 2,
         label: '45m'
     },
     {
-        value: 4,
+        value: 3,
         label: '60m'
     }
 ];
