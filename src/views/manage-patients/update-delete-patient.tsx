@@ -49,7 +49,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                 value: curr.clinicId
             }
         ]
-    }, []);
+    }, []).sort((a,b) => a.label.localeCompare(b.label));
 
     const createPatientsOnClinicOptionsArray = (patients: TPatient[]) => patients.reduce((acc: TOption[], curr:TPatient):TOption[] => {
         return [
@@ -59,7 +59,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                 label: `${curr.name} ${curr.surname} - ${curr.age} - $${curr.sessionValue}`
             }
         ]
-    }, []);
+    }, []).sort((a,b) => a.label.localeCompare(b.label));
 
     // Component did mount correctly
     React.useEffect(() => {

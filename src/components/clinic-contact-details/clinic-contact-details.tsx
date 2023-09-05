@@ -46,13 +46,16 @@ export default function ClinicContactDetails ({id, modifyData, onDataChanged, op
     }, [data]);
 
     return <>
-        <Grid2 container display={"flex"} rowGap={4} marginBottom={4}>
+        <Grid2 borderRadius={3} xs={12} padding={1} boxShadow={"rgba(0, 0, 0, 0.35) 0px 5px 15px;"} container display={"flex"} rowGap={4} marginBottom={4}>
             <TextField
                 fullWidth
                 defaultValue={data.contactMethodInfo}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData((prev) => ({...prev, contactMethodInfo: e.target.value }))}
                 label='Descripción*'
                 variant='outlined'
+                inputProps={{
+                    maxLength: 50
+                }}
             >
             </TextField>
             <SelectCustom
@@ -69,6 +72,9 @@ export default function ClinicContactDetails ({id, modifyData, onDataChanged, op
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setData((prev) => ({...prev, contactDetail: e.target.value }))}
                 label='Valor*'
                 variant='outlined'
+                inputProps={{
+                    maxLength: 100
+                }}
             >
             </TextField>
         </Grid2>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { UserDataContext } from '../../App';
-import { TOption, TPatient, TSession } from '../../types/types';
+import { TClinic, TOption, TPatient, TSession } from '../../types/types';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -176,7 +176,8 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
 
     const _computeSelectedPatient = () => {
         const patient = UserDataProvider.patients.find((patient: TPatient) => patient.patientId === patientId);
-        return patient?.name + ' ' + patient?.surname;
+        const clinicName = UserDataProvider.clinics.find((clinic: TClinic) => clinic.clinicId === patient?.clinicId)?.clinicName;
+        return patient?.name + ' ' + patient?.surname + ' de ' + clinicName;
     }
 
     return <>
@@ -184,7 +185,7 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
             {
                 state.allPatientSessions.length > 0 ? <>
                     <Grid2 xs={10} marginTop={-3}>
-                        <Typography variant='subtitle2'>Paciente seleccionado: {_computeSelectedPatient()}</Typography>
+                        <Typography variant='subtitle2'>Paciente: {_computeSelectedPatient()}</Typography>
                     </Grid2>
                     <Grid2 xs={10} marginTop={-3}>
                         <SelectCustom
@@ -210,7 +211,7 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
                         <Typography variant='subtitle2'>Total de Sesiones: {state.filteredSessions.length}</Typography>
                     </Grid2>
                     <Grid2 height={"auto"} marginBottom={5} marginTop={-4} xs={12} display={"flex"} flexDirection={"column"} alignItems={"center"}>
-                        {state.filteredSessions.map((sesion: TSession, index: number) => {
+                        {(state.filteredSessions as TSession[]).sort((a,b) => a.sessionDate.localeCompare(b.sessionDate)).reverse().map((sesion: TSession, index: number) => {
                             return <Grid2 marginTop={3} key={'session-' + index} xs={10} border={1} padding={"15px"} borderRadius={5} sx={{ backgroundColor: "lightcyan" }} boxShadow={3}>
                                 <Grid2 xs={12} position={"relative"}>
                                     <Typography fontSize={14}>{_computeDate(sesion.sessionDate)}</Typography>
@@ -219,7 +220,7 @@ export default function PatientSessions({ patientId, onAlert }: IPatientSessions
                                     </IconButton>
                                 </Grid2>
                                 <Grid2 xs={12} marginTop={2}>
-                                    <Typography sx={{ wordWrap: 'break-word' }} fontSize={14}>{sesion.sessionObs}</Typography>
+                                    <Typography sx={{ wordWrap: 'break-word' }} fontSize={14}>{sesion.sessionObs.length > 0 ? sesion.sessionObs : '- Sin Descripción -'}</Typography>
                                 </Grid2>
                             </Grid2>
                         })}
