@@ -117,8 +117,8 @@ export default function AddSession ({ onAlert }: IAddSession) {
                 <LocalizationProvider adapterLocale="es" dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker sx={{ width: "100%" }}
                         data-testid="date-picker"
-                        onChange={_onSelectedDateChanged} 
-                        defaultValue={dayjs(state.selectedDate)} 
+                        onChange={_onSelectedDateChanged}
+                        defaultValue={dayjs(state.selectedDate)}
                     />
                 </LocalizationProvider>
             </Grid2>
