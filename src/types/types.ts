@@ -70,3 +70,9 @@ export type TAddress = {
 }
 
 export type TPages = 'login' | 'home' | 'manage-clinics' | 'manage-patients'| 'reports' | 'other-settings';
+
+
+export type TDataCategories = {
+    header: string,
+    values: string[]
+}

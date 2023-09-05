@@ -6,8 +6,6 @@ interface IReportsReducer {
     filteredSessions: TSession[],
     sessionsEarns: number,
     sessionsPerClinic: [],
-    sessionsPerPatient: []
-
 }
 
 export const REPORTS_INITIAL_DATA: IReportsReducer = {
@@ -15,11 +13,10 @@ export const REPORTS_INITIAL_DATA: IReportsReducer = {
     filteredSessions: [],
     sessionsEarns: 0,
     sessionsPerClinic: [],
-    sessionsPerPatient: []
 }
 
 type TAction = {
-    type: 'UPDATE_USER_DATA' | 'UPDATE_FILTERED_SESSIONS' | 'UPDATE_SESSIONS_EARNS' | 'UPDATE_SESSIONS_PER_CLINIC' | 'UPDATE_SESSIONS_PER_PATIENT',
+    type: 'UPDATE_USER_DATA' | 'UPDATE_FILTERED_SESSIONS' | 'UPDATE_SESSIONS_EARNS' | 'UPDATE_SESSIONS_PER_CLINIC',
     payload: any
 }
 
@@ -41,9 +38,5 @@ export const ReportsReducer = (state: IReportsReducer, action: TAction) => {
             ...state,
             sessionsPerClinic: action.payload
         };
-        case 'UPDATE_SESSIONS_PER_PATIENT': return {
-            ...state,
-            sessionsPerPatient: action.payload
-        }
     }
 }
