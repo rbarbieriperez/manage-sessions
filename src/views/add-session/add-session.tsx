@@ -55,7 +55,7 @@ export default function AddSession ({ onAlert }: IAddSession) {
     }, []);
 
     React.useEffect(() => {
-        dispatch({ type: 'UPDATE_SUBMIT_BUTTON_DISABLED', payload: [state.selectedClinic, state.selectedDate].includes(0) || [state.selectedDate].includes('') });
+        dispatch({ type: 'UPDATE_SUBMIT_BUTTON_DISABLED', payload: [state.selectedClinic, state.selectedDate, state.selectedPatient].includes(0) || [state.selectedDate].includes('') });
     }, [state.selectedClinic, state.selectedPatient, state.selectedDate]);
 
     const _onSelectedDateChanged = (e: dayjs.Dayjs | null) => {
@@ -115,7 +115,7 @@ export default function AddSession ({ onAlert }: IAddSession) {
             </Grid2>
             <Grid2 xs={10} marginTop={5}>
                 <LocalizationProvider adapterLocale="es" dateAdapter={AdapterDayjs}>
-                    <DesktopDatePicker
+                    <DesktopDatePicker sx={{ width: "100%" }}
                         data-testid="date-picker"
                         onChange={_onSelectedDateChanged} 
                         defaultValue={dayjs(state.selectedDate)} 
