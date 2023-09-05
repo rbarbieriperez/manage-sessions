@@ -5,7 +5,7 @@ import HeaderCustom from './components/header-custom/header-custom';
 import LateralMenuCustom from './components/lateral-menu-custom/LateralMenuCustom';
 import ManageClinics from './views/manage-clinics/manage-clinics';
 import { TPages, TUserData } from './types/types';
-import {_saveData } from './firebase/_queries';
+import {_saveData, saveBackup } from './firebase/_queries';
 import texts from './utils/texts.json';
 import Login from './views/login/login';
 import { _createUserDataObject } from './utils/functions';
@@ -13,9 +13,8 @@ import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
 import initApp from './firebase/_config';
 import ManagePatients from './views/manage-patients/manage-patients';
 import HelperScreen from './components/helper-screen/helper-screen';
-import { Alert, Slide, Stack, Typography } from '@mui/material';
+import { Alert, Slide, Stack } from '@mui/material';
 import Reports from './views/reports/reports';
-import Grid2 from '@mui/material/Unstable_Grid2';
 
 
 
@@ -67,12 +66,21 @@ function App() {
         if (doc.exists()) {
             console.warn('Hubo cambios', doc.data());
             setUserData(JSON.parse(JSON.stringify(doc.data())));
+
+            //llamo al backup
+            saveBackup(JSON.parse(JSON.stringify(doc.data())));
+            sessionStorage.setItem('isLogged', 'true');
         } else {
-          const userName = (sessionStorage.getItem('displayName') || '').split(' ');
+          /**
+           * Se debería de abrir un modal indicandole al usuario que debe de ponerse en contacto con el adminsitrador
+           * para que manualmente se cree la colexión.
+           */
+
+          /* const userName = (sessionStorage.getItem('displayName') || '').split(' ');
 
           const emptyData = _createUserDataObject(userName[0], [], [], [], userName[1] ? userName[1] : undefined);
 
-          _saveData(emptyData);
+          _saveData(emptyData); */
         }
       }, () => {
           return 'error';
