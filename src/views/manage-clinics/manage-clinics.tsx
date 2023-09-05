@@ -352,7 +352,7 @@ export default function ManageClinics() {
                 <IconButton disabled={state.contactDetailsEls?.length > 2} onClick={_handleNewContactDetail}>
                     <AddBoxIcon/>
                 </IconButton>
-                <IconButton onClick={_handleRemoveContactDetail}>
+                <IconButton disabled={state.contactDetailsEls.length === 0} onClick={_handleRemoveContactDetail}>
                     <RemoveCircleIcon/>
                 </IconButton>
             </Grid2>

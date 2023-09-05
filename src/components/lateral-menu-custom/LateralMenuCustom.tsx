@@ -1,4 +1,4 @@
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import HouseIcon from '@mui/icons-material/House';
 import Face6Icon from '@mui/icons-material/Face6';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -6,6 +6,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import React from 'react';
 import { TPages } from '../../types/types';
+import Grid2 from '@mui/material/Unstable_Grid2';
 
 
 const listOptions = [
@@ -95,6 +96,10 @@ const LateralMenuCustom = ({ open = false, menuItemSelected, onMenuClose }: ILat
             data-testid="menu-testid"
         >
             {_renderList()}
+            <Grid2 position={"absolute"} xs={12} textAlign={"center"} bottom={10}>
+                <Typography fontSize={12}>-© Desarrollado por Rodrigo Barbieri 2023 -</Typography>
+                <Typography fontSize={12}>¿Encontraste algun error? ¡Reportalo a rbarbieriperez@gmail.com!</Typography>
+            </Grid2>
         </Drawer>
     </>
 }

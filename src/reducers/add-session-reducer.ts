@@ -6,7 +6,6 @@ interface IAddSessionReducer {
     selectedClinic: number,
     selectedPatient: number,
     selectedDate: string,
-    selectedSessionType: number,
     sessionObs: string,
     submitButtonDisabled: boolean,
     userData: TUserData,
@@ -20,7 +19,6 @@ export const INITIAL_STATE: IAddSessionReducer = {
     selectedClinic: 0,
     selectedPatient: 0,
     selectedDate: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
-    selectedSessionType: 0,
     sessionObs: '',
     submitButtonDisabled: false,
     userData: _createUserDataObject("", [], [], [], ""),
@@ -36,7 +34,6 @@ type TAction = {
     | 'UPDATE_SUBMIT_BUTTON_CLICKED'
     | 'UPDATE_SELECTED_CLINIC'
     | 'UPDATE_SELECTED_PATIENT'
-    | 'UPDATE_SELECTED_SESSION_TYPE'
     | 'UPDATE_SESSION_OBS'
     payload: any
 }
@@ -67,10 +64,6 @@ export const addSessionReducer = (state:IAddSessionReducer, action: TAction):IAd
         case 'UPDATE_SELECTED_PATIENT': return {
             ...state,
             selectedPatient: action.payload
-        };
-        case 'UPDATE_SELECTED_SESSION_TYPE': return {
-            ...state,
-            selectedSessionType: action.payload
         };
         case 'UPDATE_SESSION_OBS': return {
             ...state,

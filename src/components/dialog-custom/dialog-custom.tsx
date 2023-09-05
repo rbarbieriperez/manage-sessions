@@ -1,10 +1,11 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, ListItemText } from '@mui/material';
 import React from 'react';
+import { ListItem } from '@mui/material';
 
 interface IDialogCustom {
     open: boolean;
     modalTitle?: string;
-    modalDesc?: string;
+    modalDesc?: string | string [] | React.ReactElement;
     acceptButtonText?: string;
     rejectButtonText?: string;
     onButtonAcceptClick?: () => void;
@@ -29,6 +30,25 @@ export default function DialogCustom({ open, acceptButtonText, onButtonAcceptCli
         if (onButtonRejectClick) onButtonRejectClick();
     }
 
+    const _computeModalDesc = (desc: string | string[] | React.ReactElement):string | React.ReactElement => {
+        if (typeof desc === 'string') {
+            return desc;
+        }
+
+        if (!Array.isArray(desc)) {
+            return desc;
+        }
+
+        return <>
+            {
+                desc.map((text: string, index: number) => <ListItem disablePadding key={'dialog-custom-list-key-'+ index}>
+                    <ListItemText primary={text}/>
+                </ListItem>)
+            }
+        </>
+
+    }
+
     return <>
         <Dialog
             open={isOpen}
@@ -40,9 +60,7 @@ export default function DialogCustom({ open, acceptButtonText, onButtonAcceptCli
                 {modalTitle}
             </DialogTitle>
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    {modalDesc}
-                </DialogContentText>
+                    {_computeModalDesc(modalDesc ? modalDesc : '')}
             </DialogContent>
             <DialogActions>
                 <Button onClick={_handleButtonReject}>{rejectButtonText}</Button>
@@ -50,7 +68,6 @@ export default function DialogCustom({ open, acceptButtonText, onButtonAcceptCli
                     {acceptButtonText}
                 </Button>
             </DialogActions>
-      </Dialog>   
-    
+      </Dialog>
     </>
 }

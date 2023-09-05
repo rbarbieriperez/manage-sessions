@@ -89,7 +89,7 @@ export default function PatientData({onDataChanged, modifyData, formSubmitted, o
                     inputMode: 'text',
                     pattern: lettersPattern,
                     min: 0,
-                    maxLength: 20
+                    maxLength: 50
                 }}
             />
             <TextField
@@ -102,7 +102,7 @@ export default function PatientData({onDataChanged, modifyData, formSubmitted, o
                     inputMode: 'text',
                     pattern: lettersPattern,
                     min: 0,
-                    maxLength: 20
+                    maxLength: 50
 
                 }}
             />

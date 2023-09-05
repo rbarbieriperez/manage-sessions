@@ -41,7 +41,6 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
     const UserDataProvider = React.useContext(UserDataContext);
     const [state, dispatch] = React.useReducer(updateDeletePatientReduce, INITIAL_UPDATE_DELETE_DATA)
 
-
     const createClinicsOptionsArray = () => UserDataProvider.clinics.reduce((acc: TOption[], curr: TClinic):TOption[] => {
         return [
             ...acc,
@@ -50,7 +49,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                 value: curr.clinicId
             }
         ]
-    }, []);
+    }, []).sort((a,b) => a.label.localeCompare(b.label));
 
     const createPatientsOnClinicOptionsArray = (patients: TPatient[]) => patients.reduce((acc: TOption[], curr:TPatient):TOption[] => {
         return [
@@ -60,11 +59,15 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                 label: `${curr.name} ${curr.surname} - ${curr.age} - $${curr.sessionValue}`
             }
         ]
-    }, []);
+    }, []).sort((a,b) => a.label.localeCompare(b.label));
 
     // Component did mount correctly
     React.useEffect(() => {
         dispatch({ type: 'UPDATE_CLINICS_OPTIONS_ARRAY', payload: createClinicsOptionsArray() });
+    }, [state.clinicsOptionsArray]);
+
+    React.useEffect(() => {
+        onPatientSelected(0);
     }, []);
 
 
@@ -79,44 +82,40 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
         const foundPatient = UserDataProvider.patients.find((patient: TPatient) => patient.patientId === selectedOption);
         if (foundPatient) {
             dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: foundPatient });
+            dispatch({ type: 'UPDATE_SELECTED_PATIENT_OLD', payload: foundPatient });
             dispatch({ type: 'UPDATE_SELECT_PATIENT_DISABLED', payload: true });
             dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: false });
             onPatientSelected(foundPatient.patientId);
         }
-
-        if (foundPatient && foundPatient.family.length > 0) {
-            foundPatient.family.forEach((family: TFamily, index: number) => {
-                dispatch({ type: 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS', payload: [
-                    ...state.familyContactDetailsElements,
-                    <ContactDetails key={'family-'+ index} modifyData={family} id={index} onDataChanged={onContactDetailsDataChanged}/>
-                ]});
-            });
-        }
     }
 
     const onContactDetailsDataChanged = (newData: TFamily, id: number) => {
-        dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: {
-            ...state.selectedPatient,
-            family: [
+        if (state.selectedPatient.family.length > 0) {
+            dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: {
+                ...state.selectedPatient,
+                family: [
                 ...state.selectedPatient.family.slice(0, id), // Copy the elements before the updated index
                 { ...state.selectedPatient.family[id], ...newData }, // Update the element at the specified index
                 ...state.selectedPatient.family.slice(id + 1) // Copy the elements after the updated index
-              ]
-        }});
+            ]}});
+        }
     }
 
     const onPatientDataChanged = (data: TPatient) => {
-        dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: {
-            ...state.selectedPatient,
-            family: state.selectedPatient.family,
-            clinicId: state.selectedPatient.clinicId
-        }});
+        if (JSON.stringify(state.selectedPatient) !== JSON.stringify(data)) {
+            dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: {
+                ...data,
+                family: state.selectedPatient.family,
+                clinicId: state.selectedPatient.clinicId
+            }});
+        }
     }
 
     const onUpdatePatient = () => {
         const data = { ...UserDataProvider };
-        data.patients[data.patients.findIndex((patient: TPatient) => patient.patientId === state.selectedPatient.patientId)] = state.selectedPatient;
-        
+        const patientIndex = data.patients.findIndex((patient: TPatient) => patient.patientId === state.selectedPatient.patientId);
+        data.patients[patientIndex] = state.selectedPatient;
+
         if (_saveData(data)) {
             onAlert("Paciente modificado con éxito!", "success");
         } else {
@@ -137,20 +136,27 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
      * add an empty contact details object to patient's data
      */
     const requestNewFamilyContactDetailsElement = () => {
-        dispatch({ type: 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS', payload: [
-            ...state.familyContactDetailsElements,
-            <ContactDetails key={'family-' + state.familyContactDetailsElements.length + 1} id={state.familyContactDetailsElements.length} onDataChanged={onContactDetailsDataChanged}/>
-        ]});
+        dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: {
+            ...state.selectedPatient,
+            family: [
+                ...state.selectedPatient.family,
+                {
+                    name: '',
+                    surname: '',
+                    contactDetail: '',
+                    contactType: '',
+                    lastSurname: '',
+                    relationType: ''
+                }
+            ]
+        }});
     }
+
 
     /**
      * Remove last family contact details element from DOM and from the patient's data
      */
     const removeLastFamilyContactDetailsElement = () => {
-        dispatch({ type: 'UPDATE_FAMILY_CONTACT_DETAILS_ELEMENTS', payload: [
-            ...state.familyContactDetailsElements.slice(0, -1)
-        ]});
-
         dispatch({ type: 'UPDATE_SELECTED_PATIENT', payload: {
             ...state.selectedPatient,
             family: state.selectedPatient.family.slice(0, -1)
@@ -167,19 +173,28 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
         }
 
         dispatch({ type: 'INITIAL_STATE', payload: INITIAL_UPDATE_DELETE_DATA });
+        onPatientSelected(0);
     }
 
 
     React.useEffect(() => {
-        const patientDataBool = ![state.selectedPatient.name, state.selectedPatient.surname].includes('') && !(Number.isNaN(state.selectedPatient.sessionTime )) && !(state.selectedPatient.age === 0) && !(state.selectedPatient.sessionTime === 0);
-        if (Array.isArray(state.selectedPatient.family) && state.selectedPatient.family.length > 0) {
-            const contactDetailsBool = !(state.selectedPatient.family.filter((el: TFamily) => el.name === '' || el.surname === '' || el.relationType === '' || el.contactType === '' || el.contactDetail === '').length > 0);
-            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool || !contactDetailsBool)});
+        if (JSON.stringify(state.selectedPatientOld) !== JSON.stringify(state.selectedPatient)) {
+            const patientDataBool = ![state.selectedPatient.name, state.selectedPatient.surname].includes('') && !(Number.isNaN(state.selectedPatient.sessionTime )) && !(state.selectedPatient.age === 0) && !(state.selectedPatient.sessionTime === 0);
+            if (Array.isArray(state.selectedPatient.family) && state.selectedPatient.family.length > 0) {
+                const contactDetailsBool = !(state.selectedPatient.family.filter((el: TFamily) => el.name === '' || el.surname === '' || el.relationType === '' || el.contactType === '' || el.contactDetail === '').length > 0);
+                dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool || !contactDetailsBool)});
+            } else {
+                dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool)});
+            }
         } else {
-            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: (!patientDataBool)});
+            dispatch({ type: 'UPDATE_BUTTON_DISABLED', payload: true });
         }
-
     }, [state.selectedPatient]);
+
+    const _onFormReset = () => {
+        dispatch({ type: 'INITIAL_STATE', payload: INITIAL_UPDATE_DELETE_DATA });
+        onPatientSelected(0);
+    }
 
 
     return <>
@@ -196,7 +211,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                 <SelectCustom
                     label='Pacientes en clínica'
                     optionsArr={state.patientsOnClinic}
-                    value={state.selectedPatient?.patientId.toString() || ''}
+                    value={state.selectedPatient.patientId === 0 ? '0' : state.selectedPatient.patientId}
                     onChange={(elId: number) => onPatientChange(elId)}
                     disabled={state.selectPatientDisabled || state.patientsOnClinic.length === 0 ? true : false}
                 />
@@ -208,13 +223,13 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                    <PatientData
                         modifyData={state.selectedPatient} 
                         onDataChanged={onPatientDataChanged}
-                        onFormReset={() => dispatch({ type: 'INITIAL_STATE', payload: INITIAL_UPDATE_DELETE_DATA })}
+                        onFormReset={_onFormReset}
                         formSubmitted={state.formSubmitted}
                     />
 
                     <Grid2 xs={10} marginTop={3} display={"flex"} flexWrap={"wrap"}>
                         <Typography flexBasis={"100%"} marginTop={1} variant='h2' fontSize={22  }>Información de contacto</Typography>
-                        <IconButton disabled={state.familyContactDetailsElements.length > 2} onClick={requestNewFamilyContactDetailsElement}>
+                        <IconButton disabled={state.selectedPatient.family.length > 2} onClick={requestNewFamilyContactDetailsElement}>
                             <AddBoxIcon/>
                         </IconButton>
                         <IconButton onClick={removeLastFamilyContactDetailsElement}>
@@ -222,7 +237,7 @@ export default function UpdateDeletePatient({ onAlert, onPatientSelected }: IUpd
                         </IconButton>
                     </Grid2>
                     <Grid2 xs={12} marginTop={2}>
-                        {state.familyContactDetailsElements}
+                        {state.selectedPatient.family.map((family: TFamily, index: number) => <ContactDetails key={'update-delete-patient-family-' + index} modifyData={family} id={index} onDataChanged={onContactDetailsDataChanged}/>)}
                     </Grid2>
                     <Grid2 xs={10} paddingLeft={3} paddingRight={3} marginTop={2} textAlign={"center"} marginBottom={4} display={"flex"} flexDirection={"column"} rowGap={2}>
                         <Button disabled={state.buttonDisabled} onClick={onUpdatePatient} variant="contained" color="success">Modificar</Button>

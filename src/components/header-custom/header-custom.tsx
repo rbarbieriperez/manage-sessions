@@ -11,7 +11,7 @@ interface IHeaderCustom {
 export default function HeaderCustom ({headerTitle = '', onMenuClick }: IHeaderCustom) {
     return <>
         <header>
-            <Grid2 container boxShadow={3}>
+            <Grid2 container boxShadow={3} sx={{ backgroundColor: '#70D1FD'}}>
                 <Grid2 xs={2}>
                     <IconButton data-testid="menu-button" onClick={() => (onMenuClick && onMenuClick())}>
                         <MenuIcon/>

@@ -1,4 +1,4 @@
-import { doc, getDoc, getFirestore, onSnapshot, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getFirestore, onSnapshot, setDoc } from 'firebase/firestore';
 import initApp from './_config';
 import { TUserData } from '../types/types';
 
@@ -36,5 +36,22 @@ export const _saveData = (data: TUserData) => {
         });
     } else {
         return 'no-id';
+    }
+}
+
+/**
+ * Method to store the userData backup
+ */
+export const saveBackup = (userData:TUserData) => {
+    if (!sessionStorage.getItem('isLogged') as boolean) {
+        const userId = sessionStorage.getItem('uid');
+
+        if (userId) {
+            const setCollection = collection(db, "manage-sessions", userId, "backup");
+            return addDoc(setCollection, userData).then(() => {
+                console.warn('We have created a new backup!');
+                return true;
+            }).catch(() => false);
+        }
     }
 }

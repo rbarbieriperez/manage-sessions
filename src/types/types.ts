@@ -30,7 +30,6 @@ export type TSession = {
     sessionId: number;
     patientId: number;
     clinicId: number;
-    sessionType: string;
     sessionValue: number;
     sessionDate: string;
     sessionObs: string;
@@ -71,3 +70,9 @@ export type TAddress = {
 }
 
 export type TPages = 'login' | 'home' | 'manage-clinics' | 'manage-patients'| 'reports' | 'other-settings';
+
+
+export type TDataCategories = {
+    header: string,
+    values: string[]
+}

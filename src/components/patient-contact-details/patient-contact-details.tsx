@@ -1,7 +1,7 @@
 import Grid2 from '@mui/material/Unstable_Grid2';
-import React, { useCallback } from 'react';
+import React from 'react';
 import SelectCustom from '../select-custom/select-custom';
-import { TextField, ToolbarProps } from '@mui/material';
+import { TextField } from '@mui/material';
 import { TFamily, TOption } from '../../types/types';
 import { relationshipOptionsArr, typeOptionsArr } from '../../utils/objects';
 
@@ -65,7 +65,7 @@ export default function ContactDetails({onDataChanged, id, modifyData }: IContac
 
 
     return <>
-        <Grid2 container display={"flex"} rowGap={4} marginBottom={4}>
+        <Grid2 borderRadius={3} xs={12} padding={1} boxShadow={"rgba(0, 0, 0, 0.35) 0px 5px 15px;"} container display={"flex"} rowGap={4} marginBottom={4}>
             <SelectCustom
                 onChange={onRelationTypeChanged}
                 label='Relación*'

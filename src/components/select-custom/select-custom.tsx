@@ -22,7 +22,7 @@ export default function SelectCustom ({ label, onChange, optionsArr, disabled = 
     const [selectedValue, setSelectedValue] = React.useState<number | string>("");
 
     const _mapOptions = () => {
-        return optionsArr.map((option:TOption, index: number) => <MenuItem value={option.value} key={index + Math.random()}>{option.label}</MenuItem>);
+        return optionsArr.map((option:TOption, index: number) => <MenuItem data-testid="option-test-id" value={option.value} key={index + Math.random()}>{option.label}</MenuItem>);
     }
 
     React.useEffect(() => {
