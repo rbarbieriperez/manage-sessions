@@ -44,3 +44,9 @@ Cypress.Commands.add('login', (displayName: string, uid: string) => {
     sessionStorage.setItem('displayName', displayName);
     sessionStorage.setItem('uid', uid);
 })
+
+Cypress.Commands.add('navigateTo', (destination) => {
+    cy.get('#root > main > header > div > div.MuiGrid2-root.MuiGrid2-direction-xs-row.MuiGrid2-grid-xs-2.css-bytlsb-MuiGrid2-root > button').click();
+    cy.wait(1000);
+    cy.contains(destination).click();
+});
